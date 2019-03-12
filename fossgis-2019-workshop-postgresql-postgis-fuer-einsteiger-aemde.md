@@ -1,6 +1,6 @@
 # Workshop PostgreSQL/PostGIS für Einsteiger
 
-[FOSSGIS 2019 Workshop Dresden](https://www.fossgis-konferenz.de/2019/)
+[FOSSGIS 2019 Workshop in Dresden 15. März 2019](https://www.fossgis-konferenz.de/2019/)
 
 ![](img/fossgis19-logo.png ) ![](img/postgresql_postgis.png)
 
@@ -223,7 +223,7 @@ Hinweis: Nutzen Sie Kleinbuchstaben und keine Leerzeichen für den Namen von Dat
 
 3. Laden Sie die Erweiterung **_postgis_**.
 
-4. Prüfen Sie, ob die PostGIS-Funktionen, die Tabelle spatial_ref_sys und die Metadaten-Sichten vorliegen
+4. Prüfen Sie, ob die PostGIS-Funktionen, die Tabelle **_spatial_ref_sys_** und die Metadaten-Sichten vorliegen
 
 
 ```sql
@@ -250,9 +250,9 @@ psql -U user demo
 CREATE EXTENSION postgis;
 ```
 
-### Übung 4: Erzeugen Sie die Tabelle cities
+### Übung 4: Erzeugen und befüllen Sie die Tabelle cities
 
-* Erzeugen Sie eine neuen Tabelle mit dem Namen **_cities_** mit den Spalten gid, name, country und geom (orientieren Sie sich dazu an dem Beispiel der Tabelle pois)
+* Erzeugen Sie eine neuen Tabelle mit dem Namen **_cities_** mit den Spalten gid, name, country und geom (orientieren Sie sich dazu an dem Beispiel der Tabelle **_pois_**)
 * Fügen Sie einen Datensatz für Dresden in die Tabelle mit Hilfe der Funktion ST_MakePoint ein (https://postgis.net/docs/ST_MakePoint.html)
 * Sie finden die Koordinate für Dresden unter https://www.latlong.net/place/ 
 
@@ -284,16 +284,16 @@ INSERT INTO cities(
     VALUES ('Bucharest',ST_SetSRID(ST_MakePoint(26.096306 , 44.439663),4326),'Romania');
 ```
 
-## Well-Known Text Format (WKT)
+### Well-Known Text Format (WKT) und Well-Known Binary Format (WKB) 
 
-Die Geometrien werden intern im Well-Known Text Format (WKB) gespeichert. Eine lesbare Ausgabe ist über das Well-Known Text Format (WKT) möglich.
+Die Geometrien werden intern im Well-Known Binary Format (WKB) gespeichert. Eine lesbare Ausgabe ist über das Well-Known Text Format (WKT) möglich.
 
 ![](img/postgis_wkt.png)
 
 http://postgis.net/docs/using_postgis_dbmanagement.html#OpenGISWKBWKT
 
 
-### ST_AsEWKT oder ST_AsText zur Anzeige der Geometrie als Text
+ST_AsEWKT oder ST_AsText zur Anzeige der Geometrie als Text
 
 ```sql
 SELECT ST_AsText(geom), geom FROM cities; -- mit SRID
@@ -361,10 +361,10 @@ SELECT ST_AsEWKT(geom) FROM cities; -- ohne SRID
 SELECT ST_AsEWKT(geom) FROM provinces_brd;
 ``` 
 
-### Geometry Constructors
+### Funktionen zur Geometriegenerierung (Geometry Constructors)
 
-* Es gibt zahlreiche Funktionen zum Erzeugen von Geometrien - siehe Geometry Constructors
-* http://postgis.net/docs/reference.html#Geometry_Constructors
+* Es gibt zahlreiche Funktionen zum Erzeugen von Geometrien 
+* siehe Geometry Constructors http://postgis.net/docs/reference.html#Geometry_Constructors
 * Wir nutzten ST_MakePoint bereits - diese Funktion unterstützt 2D, 3DZ oder 4D Geometrien http://postgis.net/docs/ST_MakePoint.html
 
 ST_GeomFromText - kann für unterschiedliche Geometrietypen verwendet werden
@@ -383,7 +383,7 @@ Update ne_10m_admin_0_countries
  WHERE name = 'Spain';
 ```
 
-## Räumliche Beziehungen und Berechnungen
+### Räumliche Beziehungen und Berechnungen
 
 Ausgabe von Informationen über Ihre Daten wie z.B. Distanz, Fläche, Länge, Mittelpunkt.
 
@@ -411,7 +411,6 @@ SELECT gid, name, st_Area(geom, true) as flaeche
   WHERE name IN ('Germany','Romania') 
   ORDER BY flaeche DESC;
 ```
-
 
 ### Übung 8: Erzeugen Sie eine Sicht, die den Mittelpunkt jedes Landes ausgibt
 
@@ -442,11 +441,10 @@ SELECT gid, name, st_pointonsurface(geom)::geometry(point,4326) as geom
   FROM public.ne_10m_admin_0_countries;
 ```
 
-
 ### Übung 9: Distanzberechnung
 
 * Gehen Sie zurück zur Tabelle **_cities_** aus Übung 4. Berechnen Sie die Entfernung von Ihrem Wohnort nach Dresden.
-* Nutzen Sie dabei den Spheroid für die Berechnung (Nutzung des Typs **geography**)
+* Nutzen Sie dabei den Spheroid für die Berechnung (Nutzung des Typs **_geography_**)
 * https://postgis.net/docs/ST_Distance.html
 
 ```sql
@@ -461,7 +459,7 @@ AND myhome.name='Cologne';
 * Frage: Wer hatte die weiteste und wer die kürzeste Anreise?
 
 
-## Räumlicher Index und funktionaler Index
+### Räumlicher Index und funktionaler Index
 
 * Ihre Geometriespalte sollte einen räumlichen Index aufweisen - dieser beschleunigt räumliche Abfragen
 * Der räumliche Index speichert zu jeder Geometrie die BoundingBox
@@ -482,10 +480,11 @@ CREATE INDEX gist_cities_geom_25832
  USING GIST (ST_Transform(geom,25832));
 ```
 
-## Geometrieprozessierung
+### Geometrieprozessierung
 
 * Es gibt zahlreiche Funktionen zur Geometrieprozessierung z.B. Puffern, Verschneiden, Vereinigen, Teilen
 * http://postgis.net/docs/reference.html#Geometry_Processing
+
 
 ### Übung 10: Puffern Sie die Tabelle populated places mit 10 km
 
@@ -539,7 +538,7 @@ SELECT a.*
 
 * Erzeugen Sie eine Sicht **_qry_brd_union_**
 * Nutzen Sie ST_UNION http://postgis.net/docs/ST_Union.html
-* Nutzen Sie die Tabelle **ne_10m_admin_1_states_provinces_shp** und filtern Sie nach admin Germany (admin='Germany') 
+* Nutzen Sie die Tabelle **_ne_10m_admin_1_states_provinces_shp_** und filtern Sie nach admin Germany (admin='Germany') 
 * Fügen Sie die Spalte **_admin_** in Ihre Sicht ein - Sie müssen GROUP BY verwenden
 * Wenden Sie typecast auf die Geometriespalte an
 * Schauen Sie sich das Ergebnis in QGIS an
@@ -615,11 +614,11 @@ CREATE INDEX provinces_subdivided_the_geom_gist
   (geom);
 ```
 
-### Übung 12: ST_Subdivide
+#### Übung 12: ST_Subdivide
 
 * Manchmal macht es Sinn, große Geometrien für Berechnungen in kleinere Flächen auszuteilen
 * Diese Übung soll dies mit Hilfe einer Funktion veranschaulichen
-* Erzeugen Sie eine neue Funktion **getCountrynameSubdivided()** für die Tabelle **provinces_subdivided**
+* Erzeugen Sie eine neue Funktion **getCountrynameSubdivided()** für die Tabelle **_provinces_subdivided_**
 * Schauen Sie sich EXPLAIN an, um die Performanz zu beurteilen
 
 ```sql
