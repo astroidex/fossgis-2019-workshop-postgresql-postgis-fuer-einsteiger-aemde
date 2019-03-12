@@ -317,6 +317,8 @@ Laden Sie die Ländergrenzen, Bundesländer, städtische Bereiche (urban areas) 
 3. Laden Sie die neuen Tabelle **_cities_**
 4. Fügen Sie für Ihren Wohnort einen neuen Punkt in Ihre Tabelle **_cities_** ein. Nutzen Sie dazu das QGIS Digitalisierung
 
+![](img/qgis_cities.png)
+
 
 ## QGIS: Import von Daten nach PostgreSQL über die QGIS DB-Verwaltung
 
@@ -388,7 +390,7 @@ Update ne_10m_admin_0_countries
 Ausgabe von Informationen über Ihre Daten wie z.B. Distanz, Fläche, Länge, Mittelpunkt.
 
 
-### Übung 7: Berechnen Sie die Fläche für jedes Land
+#### Übung 7: Berechnen Sie die Fläche für jedes Land
 
 * http://postgis.net/docs/ST_Area.html
 * Achtung: Beachten Sie, dass zur Berechnung der Fläche die Einheit der verwendeten Projektion genutzt wird (Bei den Natural Earth II Daten ist dies EPSG 4326 also Grad) Verwenden Sie daher für die Berechnung den Spheroid, um sinnvolle Ergebnisse zu erhalten.
@@ -412,7 +414,7 @@ SELECT gid, name, st_Area(geom, true) as flaeche
   ORDER BY flaeche DESC;
 ```
 
-### Übung 8: Erzeugen Sie eine Sicht, die den Mittelpunkt jedes Landes ausgibt
+#### Übung 8: Erzeugen Sie eine Sicht, die den Mittelpunkt jedes Landes ausgibt
 
 * Erzeugen Sie eine Sicht, die den Mittelpunkt jedes Landes ausgibt
 * Laden Sie die Daten in QGIS
@@ -441,7 +443,7 @@ SELECT gid, name, st_pointonsurface(geom)::geometry(point,4326) as geom
   FROM public.ne_10m_admin_0_countries;
 ```
 
-### Übung 9: Distanzberechnung
+#### Übung 9: Distanzberechnung
 
 * Gehen Sie zurück zur Tabelle **_cities_** aus Übung 4. Berechnen Sie die Entfernung von Ihrem Wohnort nach Dresden.
 * Nutzen Sie dabei den Spheroid für die Berechnung (Nutzung des Typs **_geography_**)
@@ -486,7 +488,7 @@ CREATE INDEX gist_cities_geom_25832
 * http://postgis.net/docs/reference.html#Geometry_Processing
 
 
-### Übung 10: Puffern Sie die Tabelle populated places mit 10 km
+#### Übung 10: Puffern Sie die Tabelle populated places mit 10 km
 
 * Puffern Sie die Tabelle **_ne_10m_populated_places_** mit 10 km
 * http://postgis.net/docs/ST_Buffer.html
@@ -534,7 +536,7 @@ SELECT a.*
   AND a.gid != b.gid
 ```
 
-### Übung 11: ST_UNION - Vereinigen Sie alle Bundesländer von Deutschland zu einer Fläche 
+#### Übung 11: ST_UNION - Vereinigen Sie alle Bundesländer von Deutschland zu einer Fläche 
 
 * Erzeugen Sie eine Sicht **_qry_brd_union_**
 * Nutzen Sie ST_UNION http://postgis.net/docs/ST_Union.html

@@ -1,10 +1,10 @@
-#FOSSGIS 2019 Workshop Dresden
+# FOSSGIS 2019 Workshop Dresden
 
 https://www.fossgis-konferenz.de/2019/
 
-PostgreSQL/PostGIS für Einsteiger
+## PostgreSQL/PostGIS für Einsteiger
 
-siehe auch PostgreSQL/PostGIS für Fortgeschrittene https://github.com/astroidex/fossgis-2018-workshop-postgresql-postgis-fuer-fortgeschrittene-aemde/blob/master/README.md 
+* siehe auch PostgreSQL/PostGIS für Fortgeschrittene https://github.com/astroidex/fossgis-2018-workshop-postgresql-postgis-fuer-fortgeschrittene-aemde/blob/master/README.md 
 
 [FOSSGIS 2019 Workshop Dresden](https://www.fossgis-konferenz.de/2019/)
 
