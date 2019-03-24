@@ -195,7 +195,7 @@ DROP TABLE pois;
 * Manipulation von Daten - Erzeugen, Löschen, Verändern von Daten
 
 ```sql
-INSERT INTO pois (name, year, info, geom) VALUES 
+INSERT INTO pois (name, year, info) VALUES 
 (
 'Kölner Dom',
 1248,
@@ -227,10 +227,10 @@ Hinweis: Nutzen Sie Kleinbuchstaben und keine Leerzeichen für den Namen von Dat
 
 
 ```sql
-CREATE DATABASE demo;
+CREATE DATABASE fossgis;
 ```
 
-Wechseln zur Datenbank **_fossgis_**
+Wechseln zur Datenbank fossgis
 ```sql
 CREATE EXTENSION postgis;
 ```
